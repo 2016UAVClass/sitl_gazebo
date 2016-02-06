@@ -1,5 +1,5 @@
 <sdf version='1.5'>
-  <model name='iris'>
+  <model name='f450'>
     <link name='base_link'>
       <pose>0 0 0 0 -0 0</pose>
       <inertial>
@@ -35,7 +35,7 @@
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
-            <uri>model://rotors_description/meshes/iris.dae</uri>
+            <uri>model://rotors_description/meshes/f450.dae</uri>
           </mesh>
         </geometry>
         <material>
@@ -50,7 +50,7 @@
       <self_collide>0</self_collide>
     </link>
 
-<link name='iris/robot_camera'>
+<link name='f450/robot_camera'>
    <pose>0.12 0 0.06 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
@@ -94,7 +94,7 @@
       <cameraInfoTopicName>camera_info</cameraInfoTopicName>
       <updateRate>10.0</updateRate>
       <cameraName>arm_camera</cameraName>
-      <frameName>iris/robot_camera</frameName>
+      <frameName>f450/robot_camera</frameName>
       <CxPrime>320.5</CxPrime>
       <Cx>320.5</Cx>
       <Cy>240.5</Cy>
@@ -109,7 +109,7 @@
   </sensor>
 </link>
 
-<link name='iris/robot_camera_down'>
+<link name='f450/robot_camera_down'>
    <pose>-0.12 0 0.01 0 1.57079 0</pose>
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
