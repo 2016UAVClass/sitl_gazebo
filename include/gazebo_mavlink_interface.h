@@ -36,6 +36,8 @@
 #include "HilControl.pb.h"
 #include "HilSensor.pb.h"
 #include "HilGps.pb.h"
+#include "opticalFlow.pb.h"
+#include "lidar.pb.h"
 #include <boost/bind.hpp>
 
 #include <iostream>
@@ -61,6 +63,8 @@ typedef const boost::shared_ptr<const mavlink::msgs::HilControl>   HilControlPtr
 typedef const boost::shared_ptr<const mavlink::msgs::HilSensor>   HilSensorPtr;
 typedef const boost::shared_ptr<const mavlink::msgs::HilGps>   HilGpsPtr;
 typedef const boost::shared_ptr<const sensor_msgs::msgs::Imu> ImuPtr;
+typedef const boost::shared_ptr<const lidar_msgs::msgs::lidar> LidarPtr;
+typedef const boost::shared_ptr<const opticalFlow_msgs::msgs::opticalFlow> OpticalFlowPtr;
 
 // Default values
 static const std::string kDefaultNamespace = "";
@@ -71,6 +75,8 @@ static const std::string kDefaultMotorVelocityReferencePubTopic = "gazebo/comman
 static const std::string kDefaultMavlinkControlSubTopic = "HilControl";
 
 static const std::string kDefaultImuTopic = "imu";
+static const std::string kDefaultLidarTopic = "lidar";
+static const std::string kDefaultOpticalFlowTopic = "opticalFlow";
 static const std::string kDefaultMavlinkHilSensorPubTopic = "HilSensor";
 static const std::string kDefaultMavlinkHilGpsPubTopic = "HilGps";
 
@@ -86,6 +92,8 @@ class GazeboMavlinkInterface : public ModelPlugin {
         hil_sensor_mavlink_pub_topic_(kDefaultMavlinkHilSensorPubTopic),
         hil_gps_mavlink_pub_topic_(kDefaultMavlinkHilGpsPubTopic),
         imu_sub_topic_(kDefaultImuTopic),
+        opticalFlow_sub_topic_(kDefaultOpticalFlowTopic),
+        lidar_sub_topic_(kDefaultLidarTopic),
         mavlink_control_sub_topic_(kDefaultMavlinkControlSubTopic) {}
   ~GazeboMavlinkInterface();
 
@@ -114,6 +122,7 @@ class GazeboMavlinkInterface : public ModelPlugin {
   physics::JointPtr left_elevon_joint_;
   physics::JointPtr right_elevon_joint_;
   physics::JointPtr elevator_joint_;
+  physics::JointPtr propeller_joint_;
 
   /// \brief Pointer to the update event connection.
   event::ConnectionPtr updateConnection_;
@@ -122,6 +131,8 @@ class GazeboMavlinkInterface : public ModelPlugin {
   void QueueThread();
   void HilControlCallback(HilControlPtr &rmsg);
   void ImuCallback(ImuPtr& imu_msg);
+  void LidarCallback(LidarPtr& lidar_msg);
+  void OpticalFlowCallback(OpticalFlowPtr& opticalFlow_msg);
   void send_mavlink_message(const uint8_t msgid, const void *msg, uint8_t component_ID);
   void handle_message(mavlink_message_t *msg);
   void pollForMAVLinkMessages();
@@ -132,15 +143,20 @@ class GazeboMavlinkInterface : public ModelPlugin {
   } inputs; 
 
   transport::SubscriberPtr imu_sub_;
+  transport::SubscriberPtr lidar_sub_;
+  transport::SubscriberPtr opticalFlow_sub_;
   transport::PublisherPtr hil_sensor_pub_;
   transport::PublisherPtr hil_gps_pub_;
 
   std::string hil_sensor_mavlink_pub_topic_;
   std::string hil_gps_mavlink_pub_topic_;
   std::string imu_sub_topic_;
+  std::string lidar_sub_topic_;
+  std::string opticalFlow_sub_topic_;
   std::string left_elevon_joint_name_;
   std::string right_elevon_joint_name_;
   std::string elevator_joint_name_;
+  std::string propeller_joint_name_;
   
   common::Time last_time_;
   common::Time last_gps_time_;
@@ -157,10 +173,20 @@ class GazeboMavlinkInterface : public ModelPlugin {
   mavlink::msgs::HilGps hil_gps_msg_;
 
   int _fd;
-  struct sockaddr_in _myaddr;
-  struct sockaddr_in _srcaddr;
+  struct sockaddr_in _myaddr;  ///< The locally bound address
+  struct sockaddr_in _srcaddr;  ///< SITL instance
   socklen_t _addrlen;
-  unsigned char _buf[5000];
+  unsigned char _buf[65535];
   struct pollfd fds[1];
+
+
+  struct sockaddr_in _srcaddr_2;  ///< MAVROS
+
+  //so we dont have to do extra callbacks
+  double optflow_xgyro;
+  double optflow_ygyro;
+  double optflow_zgyro;
+  double optflow_distance;
+
   };
 }
