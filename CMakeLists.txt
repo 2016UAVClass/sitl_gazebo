@@ -39,10 +39,10 @@ set(rotors_description_dir "${CMAKE_SOURCE_DIR}/models/rotors_description")
 set(scripts_dir "${CMAKE_SOURCE_DIR}/scripts")
 add_custom_target(sdf
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	COMMAND rm -f ${CMAKE_SOURCE_DIR}/models/iris/iris.sdf
-	COMMAND python ${scripts_dir}/xacro.py -o  ${rotors_description_dir}/urdf/iris_base.urdf  ${rotors_description_dir}/urdf/iris_base.xacro enable_mavlink_interface:=${enable_mavlink_interface} enable_ground_truth:=${enable_ground_truth} enable_logging:=${enable_logging} rotors_description_dir:=${rotors_description_dir} 
-	COMMAND gz sdf -p  ${rotors_description_dir}/urdf/iris_base.urdf >> ${CMAKE_SOURCE_DIR}/models/iris/iris.sdf
-	COMMAND rm -f ${rotors_description_dir}/urdf/iris_base.urdf
+	COMMAND rm -f ${CMAKE_SOURCE_DIR}/models/f450/f450.sdf
+	COMMAND python ${scripts_dir}/xacro.py -o  ${rotors_description_dir}/urdf/f450_base.urdf  ${rotors_description_dir}/urdf/f450_base.xacro enable_mavlink_interface:=${enable_mavlink_interface} enable_ground_truth:=${enable_ground_truth} enable_logging:=${enable_logging} rotors_description_dir:=${rotors_description_dir} 
+	COMMAND gz sdf -p  ${rotors_description_dir}/urdf/f450_base.urdf >> ${CMAKE_SOURCE_DIR}/models/f450/f450.sdf
+	COMMAND rm -f ${rotors_description_dir}/urdf/f450_base.urdf
 	)
 
 link_directories(${GAZEBO_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/msgs)

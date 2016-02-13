@@ -20,14 +20,11 @@
 
 
 #include "gazebo_mavlink_interface.h"
-#include "geo_mag_declination.h"
 
 #define UDP_PORT 14560
 #define UDP_PORT_2 14556
 
 namespace gazebo {
-
-GZ_REGISTER_MODEL_PLUGIN(GazeboMavlinkInterface);
 
 GazeboMavlinkInterface::~GazeboMavlinkInterface() {
   event::Events::DisconnectWorldUpdateBegin(updateConnection_);
@@ -40,11 +37,10 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   world_ = model_->GetWorld();
 
   namespace_.clear();
-  if (_sdf->HasElement("robotNamespace")) {
+  if (_sdf->HasElement("robotNamespace"))
     namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>();
-  } else {
+  else
     gzerr << "[gazebo_mavlink_interface] Please specify a robotNamespace.\n";
-  }
 
   node_handle_ = transport::NodePtr(new transport::Node());
   node_handle_->Init(namespace_);
@@ -99,25 +95,21 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   opticalFlow_sub_ = node_handle_->Subscribe(opticalFlow_sub_topic_, &GazeboMavlinkInterface::OpticalFlowCallback, this);
   
   // Publish HilSensor Message and gazebo's motor_speed message
-  motor_velocity_reference_pub_ = node_handle_->Advertise<mav_msgs::msgs::CommandMotorSpeed>(motor_velocity_reference_pub_topic_, 1);
-  hil_sensor_pub_ = node_handle_->Advertise<mavlink::msgs::HilSensor>(hil_sensor_mavlink_pub_topic_, 1);
-  hil_gps_pub_ = node_handle_->Advertise<mavlink::msgs::HilGps>(hil_gps_mavlink_pub_topic_, 1);
+  motor_velocity_reference_pub_ = node_handle_->Advertise<mav_msgs::msgs::CommandMotorSpeed>(motor_velocity_reference_pub_topic_, 10);
+  hil_sensor_pub_ = node_handle_->Advertise<mavlink::msgs::HilSensor>(hil_sensor_mavlink_pub_topic_, 10);
+  hil_gps_pub_ = node_handle_->Advertise<mavlink::msgs::HilGps>(hil_gps_mavlink_pub_topic_);
 
-  _rotor_count = 5;
+  _rotor_count = 4;
   last_time_ = world_->GetSimTime();
   last_gps_time_ = world_->GetSimTime();
-  double gps_update_interval_ = 200 * 1000000;  // nanoseconds for 5Hz
+  double gps_update_interval_ = 200*1000000;  // nanoseconds for 5Hz
 
   gravity_W_ = world_->GetPhysicsEngine()->GetGravity();
 
   // Magnetic field data for Zurich from WMM2015 (10^5xnanoTesla (N, E, D))
-  //mag_W_ = {0.21523, 0.00771, 0.42741};
+  //mag_W_ = {, 0.00771, 0.42741};
   mag_W_.x = 0.21523;
-  // We set the world Y component to zero because we apply
-  // the declination based on the global position,
-  // and so we need to start without any offsets.
-  // The real value for Zurich would be 0.00771
-  mag_W_.y = 0.0;
+  mag_W_.y = 0.00771;
   mag_W_.z = 0.42741;
 
   //Create socket
@@ -192,12 +184,8 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
   velocity_current_W_xy.z = 0.0;
 
   // TODO: Remove GPS message from IMU plugin. Added gazebo GPS plugin. This is temp here.
-  // Zurich Irchel Park
-  const double lat_zurich = 47.397742 * M_PI / 180 ;  // rad
-  const double lon_zurich = 8.545594 * M_PI / 180;  // rad
-  // Seattle downtown (15 deg declination): 47.592182, -122.316031
-  // const double lat_zurich = 47.592182 * M_PI / 180 ;  // rad
-  // const double lon_zurich = -122.316031 * M_PI / 180;  // rad
+  const double lat_zurich = 47.3667 * M_PI / 180 ;  // rad
+  const double lon_zurich = 8.5500 * M_PI / 180;  // rad
   const float earth_radius = 6353000;  // m
 
   // reproject local position to gps coordinates
@@ -206,6 +194,8 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
   double c = sqrt(x_rad * x_rad + y_rad * y_rad);
   double sin_c = sin(c);
   double cos_c = cos(c);
+  double lat_rad;
+  double lon_rad;
   if (c != 0.0) {
     lat_rad = asin(cos_c * sin(lat_zurich) + (x_rad * sin_c * cos(lat_zurich)) / c);
     lon_rad = (lon_zurich + atan2(y_rad * sin_c, c * cos(lat_zurich) * cos_c - x_rad * sin(lat_zurich) * sin_c));
@@ -340,15 +330,7 @@ void GazeboMavlinkInterface::ImuCallback(ImuPtr& imu_message) {
   C_W_I.y = imu_message->orientation().y();
   C_W_I.z = imu_message->orientation().z();
 
-  float declination = get_mag_declination(lat_rad, lon_rad);
-
-  math::Quaternion C_D_I(0.0, 0.0, declination);
-
-  math::Vector3 mag_decl = C_D_I.RotateVectorReverse(mag_W_);
-
-  // TODO replace mag_W_ in the line below with mag_decl
-
-  math::Vector3 mag_I = C_W_I.RotateVectorReverse(mag_decl); // TODO: Add noise based on bais and variance like for imu and gyro
+  math::Vector3 mag_I = C_W_I.RotateVectorReverse(mag_W_); // TODO: Add noise based on bais and variance like for imu and gyro
   math::Vector3 body_vel = C_W_I.RotateVectorReverse(model_->GetWorldLinearVel());
   
   standard_normal_distribution_ = std::normal_distribution<float>(0, 0.01f);
@@ -487,22 +469,26 @@ void GazeboMavlinkInterface::handle_message(mavlink_message_t *msg)
 
     input_reference_.resize(_rotor_count);
 
-    // set rotor speeds for all systems
-    for (int i = 0; i < _rotor_count; i++) {
-      input_reference_[i] = inputs.control[i] * scaling + offset;
-    }
+    // at the moment vtol and multirotor are handled togehter
+    // pure fixed wing is handled differently
+    if (!is_fixed_wing) {
+      for (int i = 0; i < _rotor_count; i++) {
+        input_reference_[i] = inputs.control[i] * scaling + offset;
+      }
 
-    // 5th rotor: pusher/puller throttle for the standard vtol plane
-    // XXX this won't work with hexacopters and alike
-    input_reference_[4] = (inputs.control[6] + 1.0f) / 2 * 1800 + (inputs.control[6] > -1 ? 500 : 0);
-
-    if (right_elevon_joint_ != NULL && left_elevon_joint_!= 0 && elevator_joint_ != 0) {
-      // set angles of control surface joints (this should go into a message for the correct plugin)
-      double roll = 0.5 * (inputs.control[4] + inputs.control[5]);
-      double pitch = 0.5 * (inputs.control[4] - inputs.control[5]);
-      left_elevon_joint_->SetAngle(0, roll);
-      right_elevon_joint_->SetAngle(0, -roll);
-      elevator_joint_->SetAngle(0, -pitch);
+      if (right_elevon_joint_ != NULL && left_elevon_joint_!= 0 && elevator_joint_ != 0) {
+        // set angles of control surface joints (this should go into a message for the correct plugin)
+        double roll = 0.5 * (inputs.control[4] + inputs.control[5]);
+        double pitch = 0.5 * (inputs.control[4] - inputs.control[5]);
+        left_elevon_joint_->SetAngle(0, roll);
+        right_elevon_joint_->SetAngle(0, -roll);
+        elevator_joint_->SetAngle(0, -pitch);
+      }
+    } else {
+      left_elevon_joint_->SetAngle(0, inputs.control[0]);
+      right_elevon_joint_->SetAngle(0, -inputs.control[0]);
+      elevator_joint_->SetAngle(0, inputs.control[1]);
+      propeller_joint_->SetForce(0, 2000.0f * inputs.control[3]);
     }
 
     received_first_referenc_ = true;
@@ -510,4 +496,6 @@ void GazeboMavlinkInterface::handle_message(mavlink_message_t *msg)
   }
 }
 
+
+GZ_REGISTER_MODEL_PLUGIN(GazeboMavlinkInterface);
 }
