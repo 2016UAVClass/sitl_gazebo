@@ -23,7 +23,7 @@
 #include "gazebo/sensors/CameraSensor.hh"
 #include "gazebo/gazebo.hh"
 #include "gazebo/common/common.hh"
-#include "gazebo/rendering/Camera.hh"
+#include "Camera.hh"
 #include "gazebo/util/system.hh"
 #include "gazebo/transport/transport.hh"
 #include "gazebo/msgs/msgs.hh"
