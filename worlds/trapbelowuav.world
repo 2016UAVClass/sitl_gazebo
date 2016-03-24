@@ -77,65 +77,65 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>70 110000000</sim_time>
-      <real_time>72 211981442</real_time>
-      <wall_time>1458666600 884631655</wall_time>
-      <iterations>70110</iterations>
-      <model name='f450Trap_1'>
-        <pose frame=''>-14.3635 -5.74263 0.259706 -0.36015 -1.46489 1.06131</pose>
+      <sim_time>94 501000000</sim_time>
+      <real_time>25 768713672</real_time>
+      <wall_time>1458684195 885925539</wall_time>
+      <iterations>24391</iterations>
+      <model name='f450Trap'>
+        <pose frame=''>0.016532 -0.0043 0.515157 0.068237 -0.093857 0.955244</pose>
         <link name='base_link'>
-          <pose frame=''>-14.3635 -5.74263 0.259706 -0.36015 -1.46489 1.06131</pose>
-          <velocity>-10.7572 -5.04292 -0.059897 -0.114266 0.149439 0.139288</velocity>
-          <acceleration>-4.03882 -3.54352 -9.16428 0.222908 0.973662 -2.06581</acceleration>
-          <wrench>-4.03882 -3.54352 -9.16428 0 -0 0</wrench>
+          <pose frame=''>0.016532 -0.0043 0.515157 0.068237 -0.093857 0.955244</pose>
+          <velocity>4.85321 -2.60191 -5.59076 -0.799394 -0.735177 -0.014867</velocity>
+          <acceleration>3.30575 -2.13962 -11.0265 -2.01257 0.313851 2.91264</acceleration>
+          <wrench>3.30575 -2.13962 -11.0265 0 -0 0</wrench>
         </link>
         <link name='f450/robot_camera'>
-          <pose frame=''>-14.403 -5.76999 0.384969 -0.36015 -1.46489 1.06131</pose>
-          <velocity>-10.7347 -5.03411 -0.050866 -0.114266 0.149439 0.139288</velocity>
-          <acceleration>-3.97332 -3.58683 -9.15839 0.327361 0.48624 0.163576</acceleration>
-          <wrench>-0.0596 -0.053802 -0.137376 0 -0 0</wrench>
+          <pose frame=''>0.085617 0.086301 0.586001 0.068237 -0.093857 0.955244</pose>
+          <velocity>4.79292 -2.5382 -5.49953 -0.799394 -0.735177 -0.014867</velocity>
+          <acceleration>3.27349 -2.05032 -11.1621 -0.280742 0.431297 -0.071258</acceleration>
+          <wrench>0.049102 -0.030755 -0.167432 0 -0 0</wrench>
         </link>
         <link name='f450/robot_camera_down'>
-          <pose frame=''>-14.3773 -5.76011 0.141368 -0.037446 0.099084 0.699306</pose>
-          <velocity>-10.7724 -5.05837 -0.05584 -0.114266 0.149439 0.139288</velocity>
-          <acceleration>-4.09075 -3.50869 -9.15925 0.327362 0.486241 0.163582</acceleration>
-          <wrench>-0.061361 -0.05263 -0.137389 0 -0 0</wrench>
+          <pose frame=''>-0.052436 -0.103001 0.513844 0.626841 1.45481 1.58529</pose>
+          <velocity>4.93198 -2.68709 -5.61333 -0.799394 -0.735177 -0.014867</velocity>
+          <acceleration>3.27345 -2.18543 -10.8733 -0.280742 0.431297 -0.071258</acceleration>
+          <wrench>0.049102 -0.032781 -0.1631 0 -0 0</wrench>
         </link>
         <link name='iris/imu_link'>
-          <pose frame=''>-14.3635 -5.74263 0.259706 -0.36015 -1.46489 1.06131</pose>
-          <velocity>-10.7572 -5.04292 -0.059898 -0.114266 0.149439 0.139288</velocity>
-          <acceleration>-4.03882 -3.54352 -9.16428 0.327371 0.486273 0.16353</acceleration>
-          <wrench>-0.060582 -0.053153 -0.137464 0 -0 0</wrench>
+          <pose frame=''>0.016532 -0.0043 0.515157 0.068237 -0.093857 0.955244</pose>
+          <velocity>4.85321 -2.60191 -5.59076 -0.799394 -0.735177 -0.014867</velocity>
+          <acceleration>3.30575 -2.13962 -11.0265 -0.280261 0.431467 -0.070493</acceleration>
+          <wrench>0.049586 -0.032094 -0.165398 0 -0 0</wrench>
         </link>
         <link name='link_0'>
-          <pose frame=''>-14.335 -5.82646 0.256023 -1.93862 -1.46489 1.06131</pose>
-          <velocity>-10.7461 -5.03937 -0.054579 -0.114266 0.149439 0.139288</velocity>
-          <acceleration>-4.0266 -3.53549 -9.20764 0.32735 0.486247 0.163562</acceleration>
-          <wrench>-0.040266 -0.035355 -0.092076 0 -0 0</wrench>
+          <pose frame=''>0.07813 -0.062947 0.54005 -1.51023 -0.093857 0.955244</pose>
+          <velocity>4.88939 -2.64119 -5.59366 -0.799394 -0.735177 -0.014867</velocity>
+          <acceleration>3.29027 -2.15977 -11.006 -0.28075 0.431313 -0.071287</acceleration>
+          <wrench>3.29027 -2.15977 -11.006 0 -0 0</wrench>
         </link>
         <link name='rotor_0'>
-          <pose frame=''>-14.3364 -5.91964 0.43462 -1.27172 1.22831 2.55272</pose>
-          <velocity>-10.7064 -5.01916 -0.043725 -1.10629 0.028206 -0.306338</velocity>
-          <acceleration>-3.92523 -3.5919 -9.24051 -2.80966 1.23742 0.171592</acceleration>
-          <wrench>-0.019626 -0.01796 -0.046203 0 -0 0</wrench>
+          <pose frame=''>0.238222 0.021452 0.628526 0.057933 0.100478 -1.03384</pose>
+          <velocity>4.82304 -2.57093 -5.50038 1.22006 -0.198183 0.372046</velocity>
+          <acceleration>3.29761 -2.10699 -11.1747 -2.95053 -1.57021 -0.343583</acceleration>
+          <wrench>0.016488 -0.010535 -0.055873 0 -0 0</wrench>
         </link>
         <link name='rotor_1'>
-          <pose frame=''>-14.5582 -5.70655 0.106556 -1.47091 -0.123332 2.25773</pose>
-          <velocity>-10.7851 -5.08754 -0.034943 2.29348 -0.397058 1.70296</velocity>
-          <acceleration>-4.12269 -3.52944 -9.06541 -1.50191 1.53611 0.36634</acceleration>
-          <wrench>-0.020613 -0.017647 -0.045327 0 -0 0</wrench>
+          <pose frame=''>-0.204788 -0.055508 0.620311 -0.115538 -0.009904 3.06987</pose>
+          <velocity>4.94144 -2.70038 -5.46533 0.108737 -1.45462 0.36339</velocity>
+          <acceleration>3.19081 -2.1215 -10.8708 0.16989 -0.770107 -1.47355</acceleration>
+          <wrench>0.015954 -0.010607 -0.054354 0 -0 0</wrench>
         </link>
         <link name='rotor_2'>
-          <pose frame=''>-14.5418 -5.6772 0.422774 -1.46735 -0.29142 2.24031</pose>
-          <velocity>-10.7419 -5.04912 -0.040729 0.704951 -0.628908 -2.12458</velocity>
-          <acceleration>-3.96845 -3.62393 -9.05686 -2.60884 -0.62087 -2.61071</acceleration>
-          <wrench>-0.019842 -0.01812 -0.045284 0 -0 0</wrench>
+          <pose frame=''>-0.02198 0.202982 0.650114 0.08127 0.082876 -0.777852</pose>
+          <velocity>4.73972 -2.48277 -5.37953 -2.67353 0.619541 0.064649</velocity>
+          <acceleration>3.28106 -2.01881 -11.1088 2.83788 0.979698 0.020188</acceleration>
+          <wrench>0.016405 -0.010094 -0.055544 0 -0 0</wrench>
         </link>
         <link name='rotor_3'>
-          <pose frame=''>-14.3528 -5.94898 0.118402 -0.529488 -1.45594 1.2317</pose>
-          <velocity>-10.7496 -5.05757 -0.037927 0.392045 0.86544 1.46533</velocity>
-          <acceleration>-4.0711 -3.49365 -9.23671 -3.05987 0.004225 -1.61712</acceleration>
-          <wrench>-0.020356 -0.017468 -0.046184 0 -0 0</wrench>
+          <pose frame=''>0.055413 -0.237039 0.598724 -0.104003 0.051412 -2.66822</pose>
+          <velocity>5.02477 -2.78854 -5.58619 2.71311 -0.871656 -2.79024</velocity>
+          <acceleration>3.20731 -2.20977 -10.9366 -0.894076 1.1319 2.93253</acceleration>
+          <wrench>0.016037 -0.011049 -0.054683 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
@@ -148,7 +148,14 @@
         </link>
       </model>
     </state>
-    <model name='f450Trap_1'>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>4.83699 0.035262 -0 0 0 -3.13026</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <model name='f450Trap'>
       <link name='base_link'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <inertial>
@@ -298,7 +305,7 @@
         <gravity>1</gravity>
       </link>
       <link name='f450/robot_camera_down'>
-        <pose frame=''>-0.12 -0 0.01 0.006096 1.57079 0.006096</pose>
+        <pose frame=''>-0.12 -0 0.01 0.009656 1.57079 0.009656</pose>
         <inertial>
           <pose frame=''>0 0 0 0 -0 0</pose>
           <mass>0.015</mass>
@@ -390,7 +397,7 @@
             <iyz>0</iyz>
             <izz>1</izz>
           </inertia>
-          <mass>0.01</mass>
+          <mass>1</mass>
           <pose frame=''>0 0 0 0 -0 0</pose>
         </inertial>
         <self_collide>0</self_collide>
@@ -1158,14 +1165,7 @@
         <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
         <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
       </plugin>
-      <pose frame=''>0.003254 -0.095101 0.192019 0.002132 0.027457 1.14226</pose>
+      <pose frame=''>0.064202 0.042312 0.175172 -0.014322 0.027957 0.30989</pose>
     </model>
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose frame=''>1.7905 2.71819 2.17741 0.008324 0.327096 -2.28217</pose>
-        <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
-      </camera>
-    </gui>
   </world>
 </sdf>
